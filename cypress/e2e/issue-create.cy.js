@@ -117,4 +117,28 @@ describe("Issue create", () => {
         cy.contains(randomTitle).should("be.visible");
       });
   });
+
+  it("Should remove unnecessary spaces on the board view", () => {
+    const title = "   Hello    world!   ";
+
+    cy.get('[data-testid="modal:issue-create"]').should("be.visible");
+    cy.get('input[name="title"]').type(title);
+
+    cy.get('[data-testid="modal:issue-create"]').within(() => {
+      cy.get('[data-testid="select:type"]').click();
+      cy.get('[data-testid="select-option:Story"]').click();
+      cy.get('button[type="submit"]').click();
+    });
+
+    cy.contains("Issue has been successfully created.").should("be.visible");
+
+    cy.get('[data-testid="list-issue"]')
+      .first()
+      .find("p")
+      .then(($titleElement) => {
+        const actualTitle = $titleElement.text().trim();
+        const expectedTitle = title.trim();
+        expect(actualTitle).to.equal(expectedTitle);
+      });
+  });
 });
