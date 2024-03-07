@@ -71,7 +71,6 @@ describe("Issue comments creating, editing and deleting", () => {
     const initialComment = "Initial comment";
     const editedComment = "Edited comment";
 
-    // Add a comment
     getIssueDetailsModal().within(() => {
       cy.contains("Add a comment...").click();
       cy.get('textarea[placeholder="Add a comment..."]').type(initialComment);
@@ -80,7 +79,6 @@ describe("Issue comments creating, editing and deleting", () => {
       cy.get('[data-testid="issue-comment"]').should("contain", initialComment);
     });
 
-    // Edit the added comment
     getIssueDetailsModal().within(() => {
       cy.get('[data-testid="issue-comment"]').first().contains("Edit").click();
       cy.get('textarea[placeholder="Add a comment..."]')
@@ -90,7 +88,6 @@ describe("Issue comments creating, editing and deleting", () => {
       cy.get('[data-testid="issue-comment"]').should("contain", editedComment);
     });
 
-    // Remove the comment
     getIssueDetailsModal().within(() => {
       cy.get('[data-testid="issue-comment"]')
         .first()
@@ -101,7 +98,6 @@ describe("Issue comments creating, editing and deleting", () => {
       .contains("button", "Delete comment")
       .click();
 
-    // Assert that the comment is removed
     cy.get('[data-testid="modal:issue-details"]').should(
       "not.contain",
       '<div data-testid="issue-comment"'
